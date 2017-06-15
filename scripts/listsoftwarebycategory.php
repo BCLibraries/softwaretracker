@@ -1,0 +1,30 @@
+<?php
+function listSoftwareByCategory($category){
+    
+    /*Get all software that belongs to a particular category*/
+    require_once '/apps/softwaretracker/scripts/makedbconnection.php';
+    $connection = makeDBConnection(DB_HOST, DB_ADMIN, DB_ADMIN_PASSWORD, DB_NAME);
+    $search = filter_var($category, FILTER_SANITIZE_STRING);
+    $sql = "SELECT software FROM tracked WHERE category='$search';";
+    $result = $connection->query($sql);
+    
+    /*Write a list of software with links to their entry page*/
+    if ($result->num_rows > 0){
+        $dom = new DOMDocument;
+        while ($row = $result->fetch_assoc()){
+                $item = $dom->createElement("li");
+                $link = $dom->createElement("a");
+                $linkvalue = "/softwaretracker/entrypage.php?entry=$row[software]";
+                $link->setAttribute('href', $linkvalue);
+                $software = $row["software"];
+                $text = $dom->createTextNode($software);
+                $link->appendChild($text);
+                $item->appendChild($link);
+                $dom->appendChild($item);
+                }
+        echo $dom->saveHTML();
+    }
+    else {
+        echo "No results found.";
+    }
+}

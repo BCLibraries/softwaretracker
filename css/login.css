@@ -1,0 +1,45 @@
+html {
+    height:100%;
+    width:100%;
+    margin:0px;
+    padding:0px;
+}
+body {
+    height:90%;
+    width:100%;
+    margin:0px;
+    padding:0px;
+    padding-top:10%;
+    background-color:#e5e0d0;
+}
+.content-area {
+    margin:0px;
+    margin-left:25%;
+    padding-top:5%;
+    padding-bottom:5%;
+    padding-left:5%;
+    padding-right:5%;
+    width:40%;
+    background-color:whitesmoke;
+    border-style:solid;
+    border-color:#CBBD9B;
+    border-width:15px;
+    box-shadow: 3px 3px 3px #766847;
+}
+h1#error {
+    color: red;
+}
+h1 {
+    text-align:center;
+}
+/*Standardize buttons*/
+.panel-button, button, input[type="submit"] {
+    background-color:lightgray;
+    color: #555555;
+    border-radius:5px;
+    border:0px;
+    text-align: center;
+    padding:15px;
+    margin-right:5px;
+    box-shadow: 2px 2px 2px #c8c4b6;
+}
