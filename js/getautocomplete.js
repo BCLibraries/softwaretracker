@@ -11,7 +11,7 @@ function getAutocomplete(sourceid) {
                 }
              }
         };
-        xmlhttp.open("GET", "/softwaretracker/scripts/getautocomplete.php?str=" + str, true);
+        xmlhttp.open("GET", "https://libstaff.bc.edu/softwaretracker/scripts/getautocomplete.php?str=" + str, true);
         xmlhttp.send();
     };
 }

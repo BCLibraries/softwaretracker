@@ -1,28 +1,29 @@
-<?PHP require_once '/apps/softwaretracker/scripts/authorize.php';?>
+<?PHP require_once 'scripts/authorize.php';?>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Full List</title>
-        <link rel='stylesheet' type='text/css' href='css/mainstyle.css'>
-        <?PHP require_once "/apps/softwaretracker/scripts/listallsoftware.php";
-        require_once '/apps/softwaretracker/scripts/listallvendors.php';
-        require_once '/apps/softwaretracker/scripts/navbar.php';?>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/mainstyle.css" type="text/css">
+        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+        <?PHP require_once "scripts/listallsoftware.php";
+        require_once 'scripts/listallvendors.php';
+        require_once 'scripts/navbar.php';?>
     </head>
     <body>
         <?PHP navbar();?>
-        <?PHP require_once '/apps/softwaretracker/scripts/homebar.php' ?>
-        <div class='leftfloatingpanel'>
+        <div class="container">
+        <div class="row">
+        <div class='col-lg-6'>
             <h1>Software</h1>
-            <ul>
             <?PHP listAllSoftware();?>
-            </ul>
         </div>
-        <div class='leftfloatingpanel'>
+        <div class='col-lg-6'>
             <h1>Vendors</h1>
-            <ul>
             <?PHP listAllVendors();?>
-            </ul>
+        </div>
+        </div>
         </div>
     </body>
 </html>

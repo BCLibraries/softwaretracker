@@ -1,70 +1,72 @@
+<?PHP require_once 'scripts/authorize.php';?>
 <!DOCTYPE html>
-<?PHP require_once '/apps/softwaretracker/scripts/authorize.php';?>
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Expenses Per Source</title>
-        <link rel="stylesheet" type="text/css" href="css/mainstyle.css">
-        <?PHP require_once '/apps/softwaretracker/scripts/tablebyfundingsource.php';
-        require_once '/apps/softwaretracker/scripts/navbar.php';
-        require_once '/apps/softwaretracker/scripts/sumfunding.php';?>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/mainstyle.css" type="text/css">
+        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+       <?PHP require_once 'scripts/tablebyfundingsource.php';
+        require_once 'scripts/navbar.php';
+        require_once 'scripts/sumfunding.php';?>
         <script type="text/javascript" src="js/downloadreport.js"></script>
     <body>
         <?PHP navbar();?>
-        <?PHP require_once '/apps/softwaretracker/scripts/expensebar.php';?>
+        <div class='container'>
+        <?PHP require_once 'scripts/expensebar.php';?>
         
-        <h1 id="top">Expenses Per Funding Source</h1>
+        <h1>Expenses By Funding Source</h1>
         <p>The tables below summarize the licenses budgeted to the <a href="#operation">Operation</a>, <a href="#tech">Technology</a>, <a href="#its">ITS</a>, <a href="#CTE">CTE</a>, <a href="#open">Open Source</a>, and <a href="#unsorted">Unsorted</a> budgets.</p>
             
         <h2 id="operation">Library Operations Budget</h2>
         <?PHP tableByFundingSource('Operations');?>
         <p>Total Cost: <?PHP sumFunding('Operations');?></p>
         <br>
-        <button onclick="downloadFundingSourceReport('Operations')">Download</button>
-        <button onclick="location.href='/softwaretracker/printerfriendly.php?report=funding_source&area=Operations'">Print</button>
-        <a class='panel-button' href="#top">Top</a>
+        <button class="btn btn-default" onclick="downloadFundingSourceReport('Operations')">Download</button>
+        <button class="btn btn-default" onclick="location.href='printerfriendly.php?report=funding_source&area=Operations'">Print</button>
         
         <h2 id="tech">Library Technology Budget</h2>       
         <?PHP tableByFundingSource('Technology');?>
         <p>Total Cost: <?PHP sumFunding('Technology');?></p>
         <br>
-        <button onclick="downloadFundingSourceReport('Technology')">Download</button>
-        <button onclick="location.href='/softwaretracker/printerfriendly.php?report=funding_source&area=Technology'">Print</button>
-        <a class='panel-button' href="#top">Top</a>
+        <button class="btn btn-default" onclick="downloadFundingSourceReport('Technology')">Download</button>
+        <button class="btn btn-default" onclick="location.href='printerfriendly.php?report=funding_source&area=Technology'">Print</button>
         
         <h2 id="its">ITS Budget</h2>
         <?PHP tableByFundingSource('ITS');?>
         <p>Total Cost: <?PHP sumFunding('ITS');?></p>
         <br>
-        <button onclick="downloadFundingSourceReport('ITS')">Download</button>
-        <button onclick="location.href='/softwaretracker/printerfriendly.php?report=funding_source&area=ITS'">Print</button>
-        <a class='panel-button' href="#top">Top</a>
+        <button class="btn btn-default" onclick="downloadFundingSourceReport('ITS')">Download</button>
+        <button class="btn btn-default" onclick="location.href='printerfriendly.php?report=funding_source&area=ITS'">Print</button>
         
         <h2 id="cte">CTE Budget</h2>
         <?PHP tableByFundingSource('CTE');?>
         <p>Total Cost: <?PHP sumFunding('CTE');?></p>
         <br>
-        <button onclick="downloadFundingSourceReport('CTE')">Download</button>
-        <button onclick="location.href='/softwaretracker/printerfriendly.php?report=funding_source&area=CTE'">Print</button>
-        <a class='panel-button' href="#top">Top</a>
+        <button class="btn btn-default" onclick="downloadFundingSourceReport('CTE')">Download</button>
+        <button class="btn btn-default" onclick="location.href='printerfriendly.php?report=funding_source&area=CTE'">Print</button>
         
         <h2 id="open">Open Source</h2>
         <p>These entries are available through non-commercial licensing and do not require a budget source.</p>
         <?PHP tableByFundingSource('OpenSource');?>
         <p>Total Cost: <?PHP sumFunding('OpenSource');?></p>
         <br>
-        <button onclick="downloadFundingSourceReport('OpenSource')">Download</button>
-        <button onclick="location.href='/softwaretracker/printerfriendly.php?report=funding_source&area=OpenSource'">Print</button>
-        <a class='panel-button' href="#top">Top</a>
+        <button class="btn btn-default" onclick="downloadFundingSourceReport('OpenSource')">Download</button>
+        <button class="btn btn-default" onclick="location.href='printerfriendly.php?report=funding_source&area=OpenSource'">Print</button>
         
         <h2 id="unsorted">Unsorted Expenses</h2>
         <p>These entries have not been assigned to a funding source.</p>
         <?PHP tableByFundingSource('Unsorted');?>
         <p>Total Cost: <?PHP sumFunding('Unsorted');?></p>
         <br>
-        <button onclick="downloadFundingSourceReport('Unsorted')">Download</button>
-        <button onclick="location.href='/softwaretracker/printerfriendly.php?report=funding_source&area=Unsorted'">Print</button>
-        <a class='panel-button' href="#top">Top</a>
+        <button class="btn btn-default" onclick="downloadFundingSourceReport('Unsorted')">Download</button>
+        <button class="btn btn-default" onclick="location.href='printerfriendly.php?report=funding_source&area=Unsorted'">Print</button>
+        </div>
+        <script src="//code.jquery.com/jquery-1.12.4.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    
     </body>
-    <script src="js/sorttable.js" type="text/javascript"></script>
+
 </html>

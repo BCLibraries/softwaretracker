@@ -1,5 +1,5 @@
-<?PHP require_once '/apps/softwaretracker/scripts/authorize.php';
-require_once '/apps/softwaretracker/scripts/config.php';
+<?PHP require_once 'scripts/authorize.php';
+require_once 'scripts/config.php';
 
 if (isset($_GET["report"])){
 $report = filter_input(INPUT_GET, "report", FILTER_SANITIZE_STRING);

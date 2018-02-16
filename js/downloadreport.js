@@ -20,7 +20,7 @@ function downloadFundingSourceReport (source) {
 }
 function downloadUpcomingReport(days){
     var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", "/softwaretracker/scripts/makeupcomingreport?days="+days, true);
+        xmlhttp.open("GET", "/softwaretracker/scripts/makeupcomingreport.php?days="+days, true);
         xmlhttp.send();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState === 4 && this.status === 200) {
