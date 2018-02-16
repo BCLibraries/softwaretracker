@@ -1,19 +1,19 @@
-<?PHP require_once '/apps/softwaretracker/scripts/authorize.php';?>
+<?PHP require_once 'scripts/authorize.php';?>
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
         <title>Printer Friendly</title>
         <link rel="stylesheet" text="text/css" href="css/printerfriendly.css">
-        <?PHP require_once '/apps/softwaretracker/scripts/tablealldata.php';
-        require_once '/apps/softwaretracker/scripts/tablebyfundingsource.php';
-        require_once '/apps/softwaretracker/scripts/tableupcomingrenewals.php';
+        <?PHP require_once 'scripts/tablealldata.php';
+        require_once 'scripts/tablebyfundingsource.php';
+        require_once 'scripts/tableupcomingrenewals.php';
         ?>
     </head>
     <body>
         <?php
         if (!isset($_GET["report"])){
-            echo "Sorry, no report found.";
+            echo "<p>Sorry, no report found.</p>";
         }
         else {
         if ($_GET["report"]==="full") {
@@ -34,5 +34,4 @@
         ?>
         <?PHP echo "<p>Report generated on ".date("d-M-Y")."</p>"; ?>
     </body>
-    <script src="js/sorttable.js" type="text/javascript"></script>
 </html>
