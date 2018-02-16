@@ -1,7 +1,7 @@
 <?PHP
 function createNewVendor(){
     
-require_once '/apps/softwaretracker/scripts/makedbconnection.php';
+require_once 'makedbconnection.php';
 /*Set the Variables*/
 $connection = makeDBConnection(DB_HOST, DB_ADMIN, DB_ADMIN_PASSWORD, DB_NAME);
 $name = filter_var($_POST["vendor"], FILTER_SANITIZE_STRING);
@@ -21,7 +21,7 @@ if ($testresult->num_rows > 0){
     echo "<a href='/softwaretracker/newevendorpage.php'>Create a new vendor entry</a>";
 }
 else {
-$sql = "INSERT INTO vendors (vendor_name, contact_first, contact_last, contact_phone email, general_phone, notes) VALUES ('$name','$first','$last', '$contact_phone', $email', '$general_phone', '$notes');";
+$sql = "INSERT INTO vendors (vendor_name, contact_first, contact_last, contact_phone, email, general_phone, notes) VALUES ('$name','$first','$last', '$contact_phone', '$email', '$general_phone', '$notes');";
 $result = $connection->query($sql);
 if ($result) {
     echo "<a href='/softwaretracker/vendorpage.php?vendor=$name'>Go to Vendor Page</a><br>";

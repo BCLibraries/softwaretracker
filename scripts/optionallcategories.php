@@ -2,7 +2,7 @@
 function optionAllCategories (){
     
     /*get all the options for 'category'*/
-    require_once '/apps/softwaretracker/scripts/makedbconnection.php';
+    require_once 'makedbconnection.php';
     $connection = makeDBConnection(DB_HOST, DB_ADMIN, DB_ADMIN_PASSWORD, DB_NAME);
     $sql = "SELECT entry FROM appdata WHERE field='category';";
     $result = $connection->query($sql);

@@ -1,6 +1,6 @@
 <?php
 function createNewEntry(){
-require_once '/apps/softwaretracker/scripts/makedbconnection.php';
+require_once 'makedbconnection.php';
 
 /*Set the variables*/
 $date = date_create();
@@ -17,6 +17,8 @@ if ($funding == null){
 }
 $primary = filter_input(INPUT_POST,"primary", FILTER_SANITIZE_STRING);
 $vendor = filter_input(INPUT_POST,"vendor", FILTER_SANITIZE_STRING);
+$invoice = filter_input(INPUT_POST,"invoice", FILTER_SANITIZE_STRING);
+$voucher = filter_input(INPUT_POST,"voucher", FILTER_SANITIZE_STRING);
 $cost = filter_input(INPUT_POST,"cost", FILTER_SANITIZE_STRING);
 if ($cost==null){
     $cost=0;
@@ -34,17 +36,17 @@ $test = "SELECT software FROM tracked WHERE software='$software';";
 $testresult = $connection->query($test);
 
 if ($testresult->num_rows>0){
-    echo "Cannot create this entry. The software name already in use.<br>";
-    echo "<a href='/softwaretracker/'>Return to homepage</a><br>";
-    echo "<a href='/softwaretracker/newentrypage.php'>Create a new entry</a>";
+    echo "<p>Cannot create this entry. The software name already in use.</p>";
+    echo "<p><a href='./'>Return to homepage</a></p>";
+    echo "<p><a href='newentrypage.php'>Create a new entry</p>";
     exit;
 }
 else {
-$sql = "INSERT INTO tracked (software, category, environment, platform, requester, approver, funding_source, primary_user, vendor, cost, renewal, purchase, notes) VALUES ('$software', '$category', '$environment', '$platform', '$requester', '$approver', '$funding', '$primary', '$vendor', '$cost', '$renewal', '$purchase', '$notes');";
+$sql = "INSERT INTO tracked (software, category, environment, platform, requester, approver, funding_source, primary_user, vendor, invoice, voucher, cost, renewal, purchase, notes) VALUES ('$software', '$category', '$environment', '$platform', '$requester', '$approver', '$funding', '$primary', '$vendor', '$invoice', '$voucher', '$cost', '$renewal', '$purchase', '$notes');";
 $result = $connection->query($sql);
     if ($result) {
-        echo "<a href='/softwaretracker/entrypage.php?entry=$software'>Go to Entry Page</a><br>";
-        echo "<a href='/softwaretracker/'>Return to homepage</a>";
+        echo "<p><a href='entrypage.php?entry=$software'>Go to Entry Page</a></p>";
+        echo "<p><a href='./'>Return to homepage</p>";
     }
     else {
         echo "The record could not be entered into the database, because of a database error.<br>";
@@ -70,7 +72,7 @@ if (!empty($_POST["group"])){
         echo "<p>Added to $groups</p>";
     }
     else{
-        echo "There was a problem adding this user to the group requested.";
+        echo "<p>There was a problem adding this user to the group requested.</p>";
         echo $groupresult->error;
     }
 }

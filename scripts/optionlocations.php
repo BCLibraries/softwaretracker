@@ -1,7 +1,7 @@
 <?php
 function optionLocations (){
     /*get all the options for 'location'*/
-    require_once '/apps/softwaretracker/scripts/makedbconnection.php';
+    require_once 'makedbconnection.php';
     $connection = makeDBConnection(DB_HOST, DB_ADMIN, DB_ADMIN_PASSWORD, DB_NAME);
     $sql = "SELECT entry FROM appdata WHERE field='location';";
     $result = $connection->query($sql);

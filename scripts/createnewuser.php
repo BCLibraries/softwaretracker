@@ -1,7 +1,7 @@
 <?php
 function createNewUser(){
-    require_once '/apps/softwaretracker/scripts/makedbconnection.php';
-    require_once '/apps/softwaretracker/lib/password.php';
+    require_once 'makedbconnection.php';
+    require_once __DIR__.'/../lib/password.php';
     $connection = makeDBConnection(DB_HOST, DB_ADMIN, DB_ADMIN_PASSWORD, DB_NAME);
     $name = filter_var($_POST["new_user"]);
     $password = password_hash(trim($_POST["new_pass"]), PASSWORD_DEFAULT);

@@ -1,8 +1,8 @@
 <?php
 function checkMembership($entry) {
     
-    require_once '/apps/softwaretracker/scripts/makedbconnection.php';
-    require_once '/apps/softwaretracker/scripts/dbcredentials.php';
+    require_once 'makedbconnection.php';
+    require_once 'dbcredentials.php';
     
     /*Select rows where the user's group matches the software's group*/
     $connection = makeDBConnection(DB_HOST, DB_ADMIN, DB_ADMIN_PASSWORD, DB_NAME);

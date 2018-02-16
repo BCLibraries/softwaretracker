@@ -1,7 +1,7 @@
 <?php
 function optionAllVendors(){
     
-    require_once '/apps/softwaretracker/scripts/makedbconnection.php';
+    require_once 'makedbconnection.php';
     $connection = makeDBConnection(DB_HOST, DB_ADMIN, DB_ADMIN_PASSWORD, DB_NAME);
     $sql = "SELECT vendor_name FROM vendors ORDER BY vendor_name ASC;";
     $result = $connection->query($sql);

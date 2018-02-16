@@ -1,19 +1,19 @@
 <?php
-function tableMissingRenewal(){
+function tableRequestedBy($person){
     
-    /*Get all software with a renewal date set to the default value of January 1st, 1970*/
+    /*Get all software that has no cost and that isn't listed as open source*/
     require_once 'makedbconnection.php';
     $connection = makeDBConnection(DB_HOST, DB_ADMIN, DB_ADMIN_PASSWORD, DB_NAME);
-    $sql = "SELECT software FROM tracked WHERE renewal='1970-01-01' ORDER BY software ASC;";
+    $sql = "SELECT software FROM tracked WHERE requester='$person' ORDER BY software ASC;";
     $result = $connection->query($sql);
     
-    /*Write a table with the list and style it to be hidden by default*/
+    /*Write a table containing all the software and style it to be hidden by default*/
     $dom = new DOMDocument;
     
     $table = $dom->createElement("TABLE");
     $table->setAttribute("CLASS", "table table-hover");
-    $headrow = $dom->createElement("TH");
-    $heading = $dom->createElement("TD", "Software Missing Renewal");
+    $headrow = $dom->createElement("TR");
+    $heading = $dom->createElement("TD", "Software Requested by $person");
     $headrow->appendChild($heading);
     $thead = $dom->createElement("THEAD");
     $thead->appendChild($headrow);
@@ -23,7 +23,6 @@ function tableMissingRenewal(){
     /*Create the table body*/
     $tbody = $dom->createElement("TBODY");
     $table->appendChild($tbody);
-
     
     if ($result->num_rows>0){
         while ($row = $result->fetch_assoc()){

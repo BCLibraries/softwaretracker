@@ -2,24 +2,34 @@
 function tableAllData(){
     
     /*Load all data from the tracked table*/
-    require_once '/apps/softwaretracker/scripts/makedbconnection.php';
+    require_once 'makedbconnection.php';
     $connection = makeDBConnection(DB_HOST, DB_ADMIN, DB_ADMIN_PASSWORD, DB_NAME);
     $sql = "SELECT * FROM tracked ORDER BY software ASC;";
     $results = $connection->query($sql);
 
     /*Write the table*/
     $dom = new DOMDocument;
+    $div = $dom->createElement("DIV");
+    $div->setAttribute("CLASS", "container-fluid");
+    $dom->appendChild($div);
     $table = $dom->createElement("TABLE");
-    $table->setAttribute("CLASS", "alldata");
-    $dom->appendChild($table);
+    $table->setAttribute("CLASS", "table table-hover");
+    $table->setAttribute("ID", "table-all-data");
+    $div->appendChild($table);
     $headrow = $dom->createElement("TR");
-    $table->appendChild($headrow);
+    $thead = $dom->createElement("THEAD");
+    $thead->appendChild($headrow);
+    $table->appendChild($thead);
     
     /*Create the headings*/
     $thentry = $dom->createElement("TH", "Entry");
     $headrow->appendChild($thentry);
     $thvendor = $dom->createElement("TH", "Vendor");
     $headrow->appendChild($thvendor);
+    $thinvoice = $dom->createELement("TH", "Invoice #");
+    $headrow->appendChild($thinvoice);
+    $thvoucher = $dom->createElement("TH", "Voucher #");
+    $headrow->appendChild($thvoucher);
     $thcost = $dom->createElement("TH", "Cost");
     $headrow->appendChild($thcost);
     $thfundingsource = $dom->createElement("TH", "Funding Source");
@@ -41,21 +51,31 @@ function tableAllData(){
     $thpurchase = $dom->createElement("TH", "Purchase");
     $headrow->appendChild($thpurchase);
     
+    /*Create the table body*/
+    $tbody = $dom->createElement("TBODY");
+    $table->appendChild($tbody);
+    
     /*Create the data rows*/
     while ($row = $results->fetch_assoc()){   
         $datarow = $dom->createElement("TR");
-        
+        $tbody->appendChild($datarow);
         $entry = $dom->createElement("TD");
         $entrylink = $dom->createElement("A", "$row[software]");
-        $entrylink->setAttribute("HREF", "/softwaretracker/entrypage.php?entry=$row[software]");
+        $entrylink->setAttribute("HREF", "entrypage.php?entry=$row[software]");
         $entry->appendChild($entrylink);
         $datarow->appendChild($entry);
         
         $vendor = $dom->createElement("TD");
         $vendorlink = $dom->createElement("A", "$row[vendor]");
-        $vendorlink->setAttribute("HREF", "/softwaretracker/vendorpage.php?vendor=$row[vendor]");
+        $vendorlink->setAttribute("HREF", "vendorpage.php?vendor=$row[vendor]");
         $vendor->appendChild($vendorlink);
         $datarow->appendChild($vendor);
+        
+        $invoice = $dom->createElement("TD", "$row[invoice]");
+        $datarow->appendChild($invoice);
+        
+        $voucher = $dom->createElement("TD", "$row[voucher]");
+        $datarow->appendChild($voucher);
         
         $cost = $dom->createElement("TD", "$row[cost]");
         $datarow->appendChild($cost);
@@ -88,8 +108,9 @@ function tableAllData(){
         $datarow->appendChild($purchase);
         
         /*Set classes for upcoming renewals*/
+        date_default_timezone_set("America/New_York");
         $now = new DateTime();
-        $then = DateTime::createFromFormat("Y-m-d", "$row[renewal]");
+        $then = date_create_from_format("Y-m-d", "$row[renewal]");
         $interval = date_diff($now,$then);
         $days = $interval->days;
         if ($interval->invert === 0){
@@ -100,7 +121,6 @@ function tableAllData(){
                 $datarow->setAttribute("class", "upcoming");
             }
         }
-        $table->appendChild($datarow);
     }
 
 echo  $dom->saveHTML();  

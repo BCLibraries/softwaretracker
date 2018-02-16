@@ -1,7 +1,7 @@
 <?php
-require_once '/apps/softwaretracker/scripts/authorize.php';
-require_once '/apps/softwaretracker/scripts/config.php';
-require_once '/apps/softwaretracker/scripts/makedbconnection.php';
+require_once 'authorize.php';
+require_once 'config.php';
+require_once 'makedbconnection.php';
 
 /*Check the directory*/
 $directory = DOC_DIR."/$_SESSION[username]";

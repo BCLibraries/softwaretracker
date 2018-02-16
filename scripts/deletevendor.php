@@ -1,5 +1,5 @@
 <?php
-require_once '/apps/softwaretracker/scripts/makedbconnection.php';
+require_once 'makedbconnection.php';
 
 $vendor = filter_var($_GET["vendor"]);
 $connection = makeDBConnection(DB_HOST, DB_ADMIN, DB_ADMIN_PASSWORD, DB_NAME);

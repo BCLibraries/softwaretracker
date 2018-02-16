@@ -2,6 +2,5 @@
     session_start();
     unset($_SESSION["username"]);
     unset($_SESSION["role"]);
-    header('Location: /softwaretracker/?logout=true');
+    header('Location: ../?logout=true');
 ?>
-

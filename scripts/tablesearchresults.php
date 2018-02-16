@@ -1,26 +1,30 @@
-<?PHP
-function tableByFundingSource ($source) {
-    
-    require_once 'makedbconnection.php';
-    $connection = makeDBConnection(DB_HOST, DB_ADMIN, DB_ADMIN_PASSWORD, DB_NAME);
-    $sql = "select * from tracked where funding_source='$source' order by software asc;";
-    $results = $connection->query($sql);
+<?php
+require_once 'makedbconnection.php';
 
-    /*Make the Table*/
-    $dom = new DOMDocument;
+function tableSearchResults($software){
+
+/*Find all software where the name contains the search string*/
+
+$connection = makeDBConnection(DB_HOST, DB_ADMIN, DB_ADMIN_PASSWORD, DB_NAME);
+$search = filter_var($software);
+$sql = "SELECT * FROM tracked WHERE software LIKE '%$search%' or approver LIKE '%$search%' or requester LIKE '%$search%' or primary_user LIKE '%$search%' or vendor LIKE '%$search%' or funding_source LIKE '%$search%' ORDER BY software ASC;";
+$results = $connection->query($sql);
+
+if ($results->num_rows > 0){
+/*Write the table*/
     $dom = new DOMDocument;
     $div = $dom->createElement("DIV");
     $div->setAttribute("CLASS", "container-fluid");
     $dom->appendChild($div);
     $table = $dom->createElement("TABLE");
-    $table->setAttribute("CLASS", "table table-hover $source");
+    $table->setAttribute("CLASS", "table table-hover");
     $div->appendChild($table);
     $headrow = $dom->createElement("TR");
     $thead = $dom->createElement("THEAD");
     $thead->appendChild($headrow);
     $table->appendChild($thead);
     
-     /*Create the headings*/
+    /*Create the headings*/
     $thentry = $dom->createElement("TH", "Entry");
     $headrow->appendChild($thentry);
     $thvendor = $dom->createElement("TH", "Vendor");
@@ -95,7 +99,26 @@ function tableByFundingSource ($source) {
         
         $purchase = $dom->createElement("TD", "$row[purchase]");
         $datarow->appendChild($purchase);
+        
+        /*Set classes for upcoming renewals*/
+        $now = new DateTime();
+        $then = DateTime::createFromFormat("Y-m-d", "$row[renewal]");
+        $interval = date_diff($now,$then);
+        $days = $interval->days;
+        if ($interval->invert === 0){
+            if ($days < 60){
+                $datarow->setAttribute("class", "critical");
+            }
+            elseif ($days > 60 && $days < 90){
+                $datarow->setAttribute("class", "upcoming");
+            }
+        }
     }
 
 echo  $dom->saveHTML();  
+}
+else {
+    echo "<p>No results found.</p>";
+    echo "<a href='./'>Home</a>";
+}
 }

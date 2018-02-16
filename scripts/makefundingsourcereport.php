@@ -1,7 +1,7 @@
 <?php
-require_once '/apps/softwaretracker/scripts/authorize.php';
-require_once '/apps/softwaretracker/scripts/config.php';
-require_once '/apps/softwaretracker/scripts/makedbconnection.php';
+require_once 'authorize.php';
+require_once 'config.php';
+require_once 'makedbconnection.php';
 
 /*Decide where to put the file, then make it*/
 $fs = filter_var($_GET["q"]);

@@ -1,5 +1,5 @@
 <?php
-require_once '/apps/softwaretracker/scripts/makedbconnection.php';
+require_once 'makedbconnection.php';
 $connection = makeDBConnection(DB_HOST, DB_ADMIN, DB_ADMIN_PASSWORD, DB_NAME);
 
 /*Select all entries that begin with the string, but then just pull the first result row*/

@@ -1,7 +1,7 @@
 <?php
 function optionAllFundingSources (){
     
-    require_once '/apps/softwaretracker/scripts/makedbconnection.php';
+    require_once 'makedbconnection.php';
     $connection = makeDBConnection(DB_HOST, DB_ADMIN, DB_ADMIN_PASSWORD, DB_NAME);
     $sql = "SELECT entry FROM appdata WHERE field='funding_source';";
     $result = $connection->query($sql);

@@ -1,5 +1,5 @@
 <?php
-require '/apps/softwaretracker/scripts/dbcredentials.php';
+require 'dbcredentials.php';
 function makeDBConnection($host, $username, $password, $dbname){
 $connection = new mysqli($host, $username, $password, $dbname);
 if ($connection->connect_error) {

@@ -1,7 +1,7 @@
 <?php
 function updateEntry(){
     
-require_once '/apps/softwaretracker/scripts/makedbconnection.php';
+require_once 'makedbconnection.php';
 
 /*Set the variables*/
 $date = date_create();
@@ -15,6 +15,8 @@ $approver = filter_input(INPUT_POST, "approver", FILTER_SANITIZE_STRING);
 $funding = filter_input(INPUT_POST, "funding", FILTER_SANITIZE_STRING);
 $primary = filter_input(INPUT_POST, "primary", FILTER_SANITIZE_STRING);
 $vendor = filter_input(INPUT_POST, "vendor", FILTER_SANITIZE_STRING);
+$invoice = filter_input(INPUT_POST, "invoice", FILTER_SANITIZE_STRING);
+$voucher = filter_input(INPUT_POST, "voucher", FILTER_SANITIZE_STRING);
 $renewal = filter_input(INPUT_POST, "renewal", FILTER_SANITIZE_STRING);
 $purchase = filter_input(INPUT_POST, "purchase", FILTER_SANITIZE_STRING);
 $cost = filter_input(INPUT_POST, "cost", FILTER_SANITIZE_NUMBER_INT);
@@ -117,6 +119,30 @@ if (!empty($vendor)){
         }
 }
 
+/*Update Invoice*/
+if (!empty($invoice)){
+    $sql = "UPDATE tracked set invoice='$invoice' where software='$software'";
+    $action = $connection->query($sql);
+    if ($action){
+        echo "<p>Invoice updated.</p>";
+        }
+        else {
+            echo "<p>Could not update Invoice</p>";
+        }
+}
+
+/*Update Voucher*/
+if (!empty($voucher)){
+    $sql = "UPDATE tracked set voucher='$voucher' where software='$software'";
+    $action = $connection->query($sql);
+    if ($action){
+        echo "<p>Voucher updated.</p>";
+        }
+        else {
+            echo "<p>Could not update Voucher</p>";
+        }
+}
+
 /*Update Cost*/
 if (!empty($cost)){
     $sql = "UPDATE tracked set cost='$cost' where software='$software'";
@@ -167,40 +193,13 @@ else{
     }
 
 /*Add Groups*/
-if (!empty($_POST["group"])){
-    foreach ($_POST['group'] as $groups){
-        $testsql = "SELECT * FROM software_groups WHERE software_name='$software' AND group_name='$groups;";
-        $test = $connection->query($testsql);
-        if ($test->num_rows > 0){
-            echo "$software is already a member of $groups";
-        }
-        else {
-        $sql = "INSERT INTO software_groups (group_name, software_name) VALUES ('$groups', '$software');";
-        $groupresult = $adminconnection->query($sql);
-            if ($groupresult){
-                echo "<p>Added to $groups</p>";
-            }
-            else{
-                echo "There was a problem adding this program to $groups.";
-                echo $groupresult->error;
-            }
-        }
-    }
+$clearsql = "DELETE FROM software_groups WHERE software_name='$software';";
+$connection->query($clearsql);
+foreach ($_POST['group'] as $groups){
+    $groupsql = "INSERT INTO software_groups (group_name, software_name) VALUES ('$groups', '$software');";
+    $connection->query($groupsql);
 }
-/*Remove Groups*/
-if (!empty($_POST["removegroup"])){
-    foreach ($_POST['removegroup'] as $remove){
-        $sql = "DELETE FROM software_groups WHERE software_name='$software' AND group_name='$remove';";
-        $groupresult = $connection->query($sql);
-        if ($groupresult){
-            echo "<p>Removed from $remove</p>";
-        }
-        else{
-            echo "There was an error removing the software from $groups";
-            echo "$groupresult->error";
-        }
-    }
-}
+
 
 /*Update Locations*/
 $locations = $_POST["location"];
@@ -212,6 +211,6 @@ foreach ($locations as $location){
 }
 
 
-echo "<p><a href='/softwaretracker/entrypage.php?entry=$software'>Return to Software Page</a></p>";
+echo "<p><a href='entrypage.php?entry=$software'>Return to Software Page</a></p>";
 }    
 ?>

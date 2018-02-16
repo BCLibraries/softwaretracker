@@ -1,6 +1,6 @@
 <?php
 function tableDeploymentData($software){
-    require_once '/apps/softwaretracker/scripts/makedbconnection.php';
+    require_once 'makedbconnection.php';
     $connection = makeDBConnection(DB_HOST, DB_ADMIN, DB_ADMIN_PASSWORD, DB_NAME);
     
     $sql = "SELECT * FROM licenses WHERE software='$software';";
@@ -9,11 +9,16 @@ function tableDeploymentData($software){
     
     /*Write the table*/
     $dom = new DOMDocument;
+    $div = $dom->createElement("DIV");
+    $div->setAttribute("CLASS", "container-fluid");
+    $dom->appendChild($div);
     $table = $dom->createElement("TABLE");
-    $table->setAttribute("CLASS", "deployment");
-    $dom->appendChild($table);
+    $table->setAttribute("CLASS", "table table-hover");
+    $div->appendChild($table);
     $headrow = $dom->createElement("TR");
-    $table->appendChild($headrow);
+    $thead = $dom->createElement("THEAD");
+    $thead->appendChild($headrow);
+    $table->appendChild($thead);
     
     /*Create the headings*/
     $thkey = $dom->createElement("TH", "Key");
@@ -31,9 +36,14 @@ function tableDeploymentData($software){
     $thassign = $dom->createElement("TH", "Assign");
     $headrow->appendChild($thassign);
     
+    /*Create the table body*/
+    $tbody = $dom->createElement("TBODY");
+    $table->appendChild($tbody);
+    
     /*Create the data rows*/
     while ($row = $results->fetch_assoc()){   
         $datarow = $dom->createElement("TR");
+        $tbody->appendChild($datarow);
         
         $key = $dom->createElement("TD", "$row[licensekey]");
         $datarow->appendChild($key);
@@ -66,8 +76,7 @@ function tableDeploymentData($software){
             $revokebutton->setAttribute("ONCLICK", "revokeLicense('$row[id]')");
         }
         /*The revoke function is handled by a javascript called licenserevoke.js*/
-        $table->appendChild($datarow);
+        
     }
-
 echo  $dom->saveHTML();  
 }

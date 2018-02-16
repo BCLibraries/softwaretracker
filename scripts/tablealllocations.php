@@ -1,17 +1,23 @@
 <?php
 function tableAllLocations(){
-require_once "/apps/softwaretracker/scripts/makedbconnection.php";
+require_once "makedbconnection.php";
 $connection = makeDBConnection(DB_HOST, DB_ADMIN, DB_ADMIN_PASSWORD, DB_NAME);
 $sql = "SELECT entry FROM appdata WHERE field='location';";
 $result = $connection->query($sql);
 
 /*Create the table*/
 $dom = new DOMDocument;
-$table = $dom->createElement("TABLE");
-$table->setAttribute("CLASS", "deployment");
-$dom->appendChild($table);
-$headrow = $dom->createElement("TR");
-$table->appendChild($headrow);
+    $div = $dom->createElement("DIV");
+    $div->setAttribute("CLASS", "container-fluid");
+    $dom->appendChild($div);
+    $table = $dom->createElement("TABLE");
+    $table->setAttribute("CLASS", "table table-hover");
+    $table->setAttribute("ID", "table-all-locations");
+    $div->appendChild($table);
+    $headrow = $dom->createElement("TR");
+    $thead = $dom->createElement("THEAD");
+    $thead->appendChild($headrow);
+    $table->appendChild($thead);
 
 /*Create the table headings*/
 $thsoftware = $dom->createElement("TH", "Software");
@@ -21,6 +27,10 @@ while ($row = $result->fetch_assoc()){
     $headrow->appendChild($thlocation);
 }
 
+/*Create the table body*/
+$tbody = $dom->createElement("TBODY");
+$table->appendChild($tbody);
+
 /*Load the software names*/
 $namesql = "SELECT software FROM tracked;";
 $namelist = $connection->query($namesql);
@@ -28,32 +38,33 @@ $namelist = $connection->query($namesql);
 while ($name = $namelist->fetch_assoc()){
 /*Create the entry row*/
 $entryrow = $dom->createElement("TR");
-$table->appendChild($entryrow);
+$tbody->appendChild($entryrow);
 $entry = $dom->createElement("TD");
 $entryrow->appendChild($entry);
 $entrylink = $dom->createElement("A", "$name[software]");
-$entrylink->setAttribute("HREF", "/softwaretracker/entrypage.php?entry=$name[software]");
+$entrylink->setAttribute("HREF", "entrypage.php?entry=$name[software]");
 $entry->appendChild($entrylink);
-
-/*Prepare some variables*/
-$yes = "/softwaretracker/images/check.png";
-$no = "/softwaretracker/images/redx.png";
 
 /*Loop through the locations*/
     $result->data_seek(0);
     while ($test = $result->fetch_assoc()){
-        $locationcheck = $dom->createElement("TD");
-        $locationimage = $dom->createElement("IMG");
-        $locationcheck->appendChild($locationimage);
         $sql = "SELECT location FROM locations WHERE software='$name[software]' AND location='$test[entry]';";
         $testresult = $connection->query($sql);
+        $locationtd = $dom->createElement("TD");
+        $locationmark = $dom->createElement("I");
+        $locationstatus = $dom->createElement("SPAN");
+        $locationstatus->setAttribute("STYLE", "display:none;");
+        $locationtd->appendChild($locationstatus);
+        $locationtd->appendChild($locationmark);
         if ($testresult->num_rows === 1) {
-            $locationimage->setAttribute("SRC", $yes);
+            $locationmark->setAttribute("CLASS","fa fa-check");
+            $locationstatus->appendChild($dom->createTextNode("1"));
         }
         else {
-            $locationimage->setAttribute("SRC", $no);
+            $locationmark->setAttribute("CLASS","fa fa-times");
+            $locationstatus->appendChild($dom->createTextNode("0"));
         }
-        $entryrow->appendChild($locationcheck);
+        $entryrow->appendChild($locationtd);
     }
 }
 echo $dom->saveHTML();

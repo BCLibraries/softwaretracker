@@ -1,7 +1,7 @@
 <?php
 function updateUser () {
-    require_once '/apps/softwaretracker/lib/password.php';
-    require_once '/apps/softwaretracker/scripts/makedbconnection.php';
+    require_once '../lib/password.php';
+    require_once 'makedbconnection.php';
     $connection = makeDBConnection(DB_HOST, DB_ADMIN, DB_ADMIN_PASSWORD, DB_NAME);
     
     /*Make sure they selected a user*/

@@ -1,6 +1,6 @@
 <?php
 function addLicense(){
-    require_once '/apps/softwaretracker/scripts/makedbconnection.php';
+    require_once 'makedbconnection.php';
     $connection = makeDBConnection(DB_HOST, DB_ADMIN, DB_ADMIN_PASSWORD, DB_NAME);
     
     $software = FILTER_INPUT(INPUT_POST, "software", FILTER_SANITIZE_STRING);

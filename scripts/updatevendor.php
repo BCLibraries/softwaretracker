@@ -1,8 +1,8 @@
 <?php
 function updateVendor(){
     
-require_once '/apps/softwaretracker/scripts/makedbconnection.php';
-require_once '/apps/softwaretracker/scripts/dbcredentials.php';
+require_once 'makedbconnection.php';
+require_once 'dbcredentials.php';
 
 /*Set the variables*/
 $date = date_create();
@@ -96,6 +96,6 @@ if (!empty($notes)){
         }
 }
 
-echo "<br><a href='/softwaretracker/vendorpage.php?vendor=$vendor'>Return to Vendor Page</a>";
+echo "<br><a href='vendorpage.php?vendor=$vendor'>Return to Vendor Page</a>";
 }
 ?>
