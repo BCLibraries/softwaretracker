@@ -1,3 +1,6 @@
+*{
+    font-family: Helvetica,sans-serif;
+}
 html {
     height:100%;
     width:100%;
@@ -10,21 +13,17 @@ body {
     margin:0px;
     padding:0px;
     padding-top:10%;
-    background-color:#e5e0d0;
+    background-color:whitesmoke;
 }
 .content-area {
     margin:0px;
     margin-left:25%;
     padding-top:5%;
     padding-bottom:5%;
-    padding-left:5%;
-    padding-right:5%;
     width:40%;
-    background-color:whitesmoke;
-    border-style:solid;
-    border-color:#CBBD9B;
-    border-width:15px;
-    box-shadow: 3px 3px 3px #766847;
+    background-color:white;
+    border:solid black 1px;
+    text-align:center;
 }
 h1#error {
     color: red;
@@ -42,4 +41,7 @@ h1 {
     padding:15px;
     margin-right:5px;
     box-shadow: 2px 2px 2px #c8c4b6;
+}
+input {
+    font-size:14pt;
 }
